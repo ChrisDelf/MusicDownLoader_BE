@@ -1,0 +1,5 @@
+CREATE TABLE users (
+    id uuid NOT NULL PRIMARY KEY ,
+    ame VARCHAR(100) NOT NULL
+
+);
