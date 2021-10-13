@@ -1,12 +1,14 @@
 package com.example.musicdownloader.dao;
 
 import com.example.musicdownloader.model.User;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserDao {
+
 
 
     int insertUser(UUID id, User user);

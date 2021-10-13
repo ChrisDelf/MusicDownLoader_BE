@@ -2,5 +2,5 @@ app:
   datasource:
     jdbc-url: jdbc:postgresql://localhost:5432/musicdb
     username: postgres
-    password: password
+    password: mysecretpassword
     pool-size: 30
