@@ -13,37 +13,46 @@ public class Song {
 
     private String genre;
 
-    private String artest;
+    private String artist;
 
-    private String date;
+    private String downloadDate;
+
+    private String songAddress;
 
     public Song(long id) {
         this.id = id;
     }
 
-    public Song(long id, String name, String genre, String artest, String date) {
+    public Song(long id, String name, String genre, String artist, String downloadDate) {
         this.id = id;
         this.name = name;
         this.genre = genre;
-        this.artest = artest;
-        this.date = date;
+        this.artist = artist;
+        this.downloadDate = downloadDate;
     }
 
-
-    public String getArtest() {
-        return artest;
+    public String getSongAddress() {
+        return songAddress;
     }
 
-    public void setArtest(String artest) {
-        this.artest = artest;
+    public void setSongAddress(String songAddress) {
+        this.songAddress = songAddress;
     }
 
-    public String getDate() {
-        return date;
+    public String getArtist() {
+        return artist;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getDownloadDate() {
+        return downloadDate;
+    }
+
+    public void setDownloadDate(String downloadDate) {
+        this.downloadDate = downloadDate;
     }
 
 

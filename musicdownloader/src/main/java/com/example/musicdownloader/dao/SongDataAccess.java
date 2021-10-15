@@ -2,12 +2,16 @@ package com.example.musicdownloader.dao;
 
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+import java.io.*;
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository("song")
 public class SongDataAccess implements SongDao{
 
 
@@ -19,16 +23,46 @@ public class SongDataAccess implements SongDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static void printStream(InputStream inputStream) throws IOException {
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        }
+    }
 
     @Override
-    public int addSong(Song song, String songAddress) {
+    public int addSong(Song song, String songAddress) throws IOException {
         // we need to check if the song exists already in our database
+// "/usr/bin/python",
+        // /var/lib/snapd/snap/bin/youtube-dl
+        String path = String.format("/home/dude/Documents/Music/", song.getGenre());
+        String command = String.format("youtube-dl ", songAddress);
+        File fPath = new File(path);
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.command("/usr/bin/python","/var/lib/snapd/snap/bin/youtube-dl","/bin/bash",command);
+        builder.directory(fPath);
 
-        String path = String.format("cd /home/dude/Documents/Music/", song.getGenre());
-        String command = String.format("youtube-dl", songAddress);
 
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash",path, command);
-        builder.redirectErrorStream(true);
+        try {
+            Process process = builder.start();
+            OutputStream outputStream = process.getOutputStream();
+            InputStream inputStream = process.getInputStream();
+            InputStream errorStream = process.getErrorStream();
+
+            printStream(inputStream);
+            printStream(errorStream);
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
+
 
 
         return 0;
