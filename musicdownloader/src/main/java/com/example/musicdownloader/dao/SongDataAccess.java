@@ -1,5 +1,6 @@
 package com.example.musicdownloader.dao;
 
+import com.example.musicdownloader.TerminalProcess.TerminalProcessMain;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
@@ -35,32 +36,15 @@ public class SongDataAccess implements SongDao{
 
     @Override
     public int addSong(Song song, String songAddress) throws IOException {
-        // we need to check if the song exists already in our database
-// "/usr/bin/python",
-        // /var/lib/snapd/snap/bin/youtube-dl
-        String path = String.format("/home/dude/Documents/Music/", song.getGenre());
-        String command = String.format("youtube-dl ", songAddress);
-        File fPath = new File(path);
-        ProcessBuilder builder = new ProcessBuilder();
-        builder.command("/usr/bin/python","/var/lib/snapd/snap/bin/youtube-dl","/bin/bash",command);
-        builder.directory(fPath);
 
 
+        TerminalProcessMain downloader = new TerminalProcessMain();
         try {
-            Process process = builder.start();
-            OutputStream outputStream = process.getOutputStream();
-            InputStream inputStream = process.getInputStream();
-            InputStream errorStream = process.getErrorStream();
+            downloader.main(song);
 
-            printStream(inputStream);
-            printStream(errorStream);
-
-        }
-        catch (IOException e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
 
