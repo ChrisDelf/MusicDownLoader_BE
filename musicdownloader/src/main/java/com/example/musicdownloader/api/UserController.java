@@ -1,23 +1,34 @@
 package com.example.musicdownloader.api;
 
+import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
+import com.example.musicdownloader.service.SongService;
 import com.example.musicdownloader.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("api/v1/user")
+@RequestMapping("api/user")
 @RestController
 public class UserController {
     private final UserService userService;
 
+
+    private final SongService songService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SongService songService) {
         this.userService = userService;
+        this.songService = songService;
     }
     @PostMapping
     public void addUser(@Valid @NonNull @RequestBody User user) {
@@ -50,4 +61,17 @@ public class UserController {
     {
         userService.updateUser(id, user);
     }
+    /// Music related endpoitns
+
+    @PostMapping(value = "/musicdl",
+            consumes = {"application/json"},
+            produces = {"application/json"})
+    public ResponseEntity<?> downloadSong(@RequestBody Song song
+                                          ) throws URISyntaxException, IOException {
+        songService.downloadSong(song, song.getSongAddress());
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("postgres")
+@Repository("user")
 public class UserDataAccess implements UserDao {
 
 
@@ -28,7 +28,7 @@ public class UserDataAccess implements UserDao {
 
     @Override
     public List<User> selectAllUser() {
-        final String sql = "SELECT id, ame FROM users";
+        final String sql = "SELECT id, name FROM users";
         return jdbcTemplate.query(sql, (resultSet, i) -> {
            UUID id = UUID.fromString(resultSet.getString("id"));
            String name =  resultSet.getString("name");
@@ -38,7 +38,7 @@ public class UserDataAccess implements UserDao {
 
     @Override
     public Optional<User> selectUserById(UUID id) {
-        final String sql = "SELECT id, ame FROM  users WHERE id = ?";
+        final String sql = "SELECT id, name FROM  users WHERE id = ?";
         User user = jdbcTemplate.queryForObject(sql, new Object[]{id},(resultSet, i) -> {
             UUID userId = UUID.fromString(resultSet.getString("id"));
             String name =  resultSet.getString("name");
