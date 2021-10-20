@@ -11,10 +11,10 @@ public class TerminalProcessMain {
 
 
 
-    public void main(Song song) throws Exception {
+    public boolean main(Song song) throws Exception {
 
         // Where we want to execute
-        File location = new File(String.format("/home/dude/Documents/Music/" + song.getGenre()));
+        File location = new File(String.format("/home/dude/Documents/Music/"));
 
         // going to create our commands
         List<String> cmdList = new ArrayList<String>();
@@ -22,10 +22,12 @@ public class TerminalProcessMain {
         cmdList.add(song.getSongAddress());
 
         //runCommand
-        runCommand(location,cmdList);
+
+
+        return runCommand(location,cmdList);
     }
 
-    public static void runCommand(File whereToRun, List<String> cmdList) throws Exception {
+    public static boolean runCommand(File whereToRun, List<String> cmdList) throws Exception {
         System.out.println("we are running in: "+ whereToRun);
         System.out.println("Our Command is: " + cmdList);
 
@@ -47,7 +49,9 @@ public class TerminalProcessMain {
 
         if(!isFinished) {
             process.destroyForcibly();
+            return false;
         }
+        return true;
     }
 
     private static void printStream(InputStream inputStream) throws IOException {

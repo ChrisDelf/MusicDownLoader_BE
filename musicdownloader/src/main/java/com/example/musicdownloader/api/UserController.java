@@ -74,4 +74,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/musiclist",
+    produces = {"applications/json"})
+    public  ResponseEntity<?> getSongList() throws URISyntaxException, IOException {
+
+        return new ResponseEntity<String>(songService.getSongList(), HttpStatus.OK);
+
+    }
+
 }

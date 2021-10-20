@@ -1,6 +1,7 @@
 package com.example.musicdownloader.dao;
 
 import com.example.musicdownloader.TerminalProcess.TerminalProcessMain;
+import com.example.musicdownloader.Utilities.ListofFiles;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,12 +37,12 @@ public class SongDataAccess implements SongDao{
     }
 
     @Override
-    public int addSong(Song song, String songAddress) throws IOException {
-
+    public boolean addSong(Song song, String songAddress) throws IOException {
+        boolean isDownload = false;
 
         TerminalProcessMain downloader = new TerminalProcessMain();
         try {
-            downloader.main(song);
+           isDownload = downloader.main(song);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,8 +50,8 @@ public class SongDataAccess implements SongDao{
 
 
 
+    return isDownload;
 
-        return 0;
     }
 
     @Override
@@ -64,5 +66,12 @@ public class SongDataAccess implements SongDao{
             return new Song(id, name,genre,artest,date);
         });
         return Optional.ofNullable(song);
+    }
+
+    @Override
+    public ArrayList<String> listOfSongs() throws IOException {
+        ListofFiles listOfSongs = new ListofFiles();
+
+        return  listOfSongs.main();
     }
 }
