@@ -5,13 +5,17 @@ import com.example.musicdownloader.model.User;
 import com.example.musicdownloader.service.SongService;
 import com.example.musicdownloader.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -63,12 +67,12 @@ public class UserController {
     }
     /// Music related endpoitns
 
-    @PostMapping(value = "/musicdl",
+    @PostMapping(value = "/upload",
             consumes = {"application/json"},
             produces = {"application/json"})
     public ResponseEntity<?> downloadSong(@RequestBody Song song
                                           ) throws URISyntaxException, IOException {
-        songService.downloadSong(song, song.getSongAddress());
+        songService.uploadSong(song, song.getSongAddress());
 
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -82,4 +86,24 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/download",
+            consumes = {"application/json"})
+    public  ResponseEntity<Object> getSongFile(@RequestBody Song song ) throws URISyntaxException, IOException {
+        File songFile = songService.transferSongFile(song.getName());
+
+
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(songFile));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", songFile.getName()));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        ResponseEntity<Object>
+                responseEntity = ResponseEntity.ok().headers(headers).contentLength(songFile.length()).contentType(
+                MediaType.parseMediaType("application/txt")).body(resource);
+
+        return responseEntity;
+
+    }
 }

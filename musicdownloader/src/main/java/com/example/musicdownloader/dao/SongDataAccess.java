@@ -3,8 +3,6 @@ package com.example.musicdownloader.dao;
 import com.example.musicdownloader.TerminalProcess.TerminalProcessMain;
 import com.example.musicdownloader.Utilities.ListofFiles;
 import com.example.musicdownloader.model.Song;
-import com.example.musicdownloader.model.User;
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository("song")
 public class SongDataAccess implements SongDao{
@@ -37,7 +34,7 @@ public class SongDataAccess implements SongDao{
     }
 
     @Override
-    public boolean addSong(Song song, String songAddress) throws IOException {
+    public boolean upLoadSong(Song song, String songAddress) throws IOException {
         boolean isDownload = false;
 
         TerminalProcessMain downloader = new TerminalProcessMain();
@@ -73,5 +70,14 @@ public class SongDataAccess implements SongDao{
         ListofFiles listOfSongs = new ListofFiles();
 
         return  listOfSongs.main();
+    }
+
+    @Override
+    public File selectSongFile(String name) {
+        File songFile = new File("name");
+
+
+
+        return songFile;
     }
 }
