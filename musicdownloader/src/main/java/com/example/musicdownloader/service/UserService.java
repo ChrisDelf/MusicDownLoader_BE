@@ -6,6 +6,7 @@ import com.example.musicdownloader.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,5 +45,7 @@ public class UserService {
         return userDao.updateUserById(id, user);
 
     }
+
+
 
 }
