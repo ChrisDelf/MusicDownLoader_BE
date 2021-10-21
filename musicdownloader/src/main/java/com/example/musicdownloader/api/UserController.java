@@ -13,11 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,5 +109,24 @@ public class UserController {
 
         return responseEntity;
 
+    }
+
+    @GetMapping(value = "/musicstream",
+        consumes = {"application/json"})
+    public ResponseEntity<byte[]> playSong(@RequestBody Song song , HttpServletResponse response)throws URISyntaxException, IOException {
+        try {
+
+            File songFile = songService.transferSongFile(song.getName());
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + "song.mp3" + "\"");
+            response.setContentType("audio/mp3");
+
+        }
+        catch (Exception ignored)
+        {
+
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

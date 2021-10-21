@@ -74,7 +74,7 @@ public class SongDataAccess implements SongDao{
 
     @Override
     public File selectSongFile(String name) {
-        File songFile = new File("name");
+        File songFile = new File(name);
 
 
 

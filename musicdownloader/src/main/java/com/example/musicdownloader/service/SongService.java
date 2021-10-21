@@ -40,4 +40,9 @@ public class SongService {
 
     return songFile;
     }
+
+    public File streamFile(String songName){
+        File songFile = new File("/home/dude/Documents/Music/"+ songName);
+        return songFile;
+    }
 }

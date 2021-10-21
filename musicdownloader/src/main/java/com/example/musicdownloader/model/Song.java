@@ -1,9 +1,19 @@
 package com.example.musicdownloader.model;
 
+import org.springframework.content.commons.annotations.ContentId;
+import org.springframework.content.commons.annotations.ContentLength;
+import org.springframework.content.commons.annotations.MimeType;
+import org.springframework.content.commons.repository.ContentStore;
+import org.springframework.content.rest.StoreRestResource;
+import org.springframework.data.repository.CrudRepository;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.UUID;
 
+@Entity
 public class Song {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
@@ -18,6 +28,20 @@ public class Song {
     private String downloadDate;
 
     private String songAddress;
+
+    @ContentId
+    private UUID contentId;
+
+    @ContentLength
+    private Long contnetLength;
+
+    @MimeType
+    private String mimeType;
+
+    public interface SongRepository extends CrudRepository<Song, Long> {}
+
+
+    public interface SongStore extends ContentStore<Song, UUID>{}
 
     public Song(long id) {
         this.id = id;
@@ -74,5 +98,29 @@ public class Song {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public UUID getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(UUID contentId) {
+        this.contentId = contentId;
+    }
+
+    public Long getContnetLength() {
+        return contnetLength;
+    }
+
+    public void setContnetLength(Long contnetLength) {
+        this.contnetLength = contnetLength;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 }
