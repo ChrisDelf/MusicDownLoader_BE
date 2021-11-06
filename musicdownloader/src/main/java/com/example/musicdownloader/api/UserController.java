@@ -2,8 +2,8 @@ package com.example.musicdownloader.api;
 
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
-import com.example.musicdownloader.service.SongService;
-import com.example.musicdownloader.service.UserService;
+import com.example.musicdownloader.service.SongServiceImpl;
+import com.example.musicdownloader.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -24,46 +24,46 @@ import java.util.UUID;
 @RequestMapping("api/user")
 @RestController
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
 
-    private final SongService songService;
+    private final SongServiceImpl songServiceImpl;
 
     @Autowired
-    public UserController(UserService userService, SongService songService) {
-        this.userService = userService;
-        this.songService = songService;
+    public UserController(UserServiceImpl userServiceImpl, SongServiceImpl songServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+        this.songServiceImpl = songServiceImpl;
     }
     @PostMapping
     public void addUser(@Valid @NonNull @RequestBody User user) {
-        userService.addUser(user);
+        userServiceImpl.addUser(user);
 
     }
 
     @GetMapping
     public List<User> getAllUsers() {
 
-        return userService.getAllUser();
+        return userServiceImpl.getAllUser();
     }
 
     @GetMapping(path = "{id}")
     public User getUserById(@PathVariable("id") UUID id)
     {
 
-        return userService.getUserById(id)
+        return userServiceImpl.getUserById(id)
                 .orElse(null);
     }
 
     @DeleteMapping(path = "{id}")
     public void deleteUser(@PathVariable("id") UUID id)
     {
-        userService.deleteUser(id);
+        userServiceImpl.deleteUser(id);
     }
 
     @PutMapping(path = "{id}")
     public void updateUser(@Valid @NonNull @RequestBody User user, @PathVariable("id") UUID id)
     {
-        userService.updateUser(id, user);
+        userServiceImpl.updateUser(id, user);
     }
     /// Music related endpoitns
 
@@ -71,8 +71,8 @@ public class UserController {
             consumes = {"application/json"},
             produces = {"application/json"})
     public ResponseEntity<?> downloadSong(@RequestBody Song song
-                                          ) throws URISyntaxException, IOException {
-        songService.uploadSong(song, song.getSongAddress());
+                                          ) throws Exception {
+        songServiceImpl.uploadSong(song, song.getSongAddress());
 
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -82,14 +82,14 @@ public class UserController {
     produces = {"applications/json"})
     public  ResponseEntity<?> getSongList() throws URISyntaxException, IOException {
 
-        return new ResponseEntity<String>(songService.getSongList(), HttpStatus.OK);
+        return new ResponseEntity<String>(songServiceImpl.getSongList(), HttpStatus.OK);
 
     }
 
     @GetMapping(value = "/download",
             consumes = {"application/json"})
     public  ResponseEntity<Object> getSongFile(@RequestBody Song song ) throws URISyntaxException, IOException {
-        File songFile = songService.transferSongFile(song.getName());
+        File songFile = songServiceImpl.transferSongFile(song.getName());
 
 
         InputStreamResource resource = new InputStreamResource(new FileInputStream(songFile));
@@ -105,5 +105,13 @@ public class UserController {
 
         return responseEntity;
 
+    }
+
+    @GetMapping(value = "/play",
+    consumes = {"application/json"})
+    public ResponseEntity<Object> playSong(@RequestBody Song song) throws URISyntaxException, IOException {
+
+        
+        return new ResponseEntity<Object>( HttpStatus.OK);
     }
 }
