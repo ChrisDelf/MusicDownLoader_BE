@@ -8,7 +8,7 @@ import com.example.musicdownloader.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import springfox.documentation.spring.web.json.Json;
+
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user){
 
-        if (userRepository.findByUsername(user.getName()) != null)
+        if (userRepository.findByName(user.getName()) != null)
         {
             throw new ResourceFoundException(user.getName() + "is already taken!");
         }

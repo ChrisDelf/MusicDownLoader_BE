@@ -1,19 +1,23 @@
 package com.example.musicdownloader.model;
 
+import javax.persistence.*;
 import java.util.UUID;
-
+@Entity
+@Table(name = "playlists")
 public class Playlist {
 
-    private final UUID id;
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO)
+    private long id;
 
-    String Name;
+    private String Name;
 
     public Playlist(UUID id, String name) {
-        this.id = id;
+        id = id;
         Name = name;
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
