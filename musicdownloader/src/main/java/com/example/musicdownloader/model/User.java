@@ -13,9 +13,9 @@ public class User {
 
     private final UUID id;
     @NotBlank
-    private final String name;
+    private String name;
 
-
+    private String password;
 
     public User(@JsonProperty("id") UUID id,
                 @JsonProperty("name") String name) {
@@ -31,5 +31,14 @@ public class User {
         return name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -50,8 +50,8 @@ public class UserController {
     public User getUserById(@PathVariable("id") UUID id)
     {
 
-        return userServiceImpl.getUserById(id)
-                .orElse(null);
+        return userServiceImpl.getUserById(id);
+
     }
 
     @DeleteMapping(path = "{id}")

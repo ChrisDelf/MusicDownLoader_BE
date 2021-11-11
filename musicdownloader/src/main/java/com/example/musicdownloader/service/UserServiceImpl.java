@@ -1,48 +1,88 @@
 package com.example.musicdownloader.service;
 
 
-import com.example.musicdownloader.dao.UserDao;
+import com.example.musicdownloader.Repository.UserRepository;
+import com.example.musicdownloader.exceptions.ResourceFoundException;
+import com.example.musicdownloader.exceptions.ResourceNotFoundException;
 import com.example.musicdownloader.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import springfox.documentation.spring.web.json.Json;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl {
-    private final UserDao userDao;
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    public UserServiceImpl(@Qualifier("user") UserDao userDao) {
-        this.userDao = userDao;
+    private UserRepository userRepository;
+
+    @Transactional
+    @Override
+    public User addUser(User user){
+
+        if (userRepository.findByUsername(user.getName()) != null)
+        {
+            throw new ResourceFoundException(user.getName() + "is already taken!");
+        }
+        UUID uuid = UUID.randomUUID();
+        User newUser = new User(uuid, user.getName());
+        newUser.setPassword(user.getPassword());
+
+        return userRepository.save(newUser);
     }
 
-    public int addUser(User user){
-       return userDao.insertUser(user);
-    }
-
+    @Override
     public List<User> getAllUser() {
-
-        return userDao.selectAllUser();
+        List<User> list = new ArrayList<>();
+        userRepository.findAll()
+                .iterator()
+                .forEachRemaining(list::add);
+        return list;
     }
 
-    public Optional<User> getUserById(UUID id)
+    @Transactional
+    @Override
+    public User getUserById(UUID id) throws ResourceNotFoundException
     {
-        return userDao.selectUserById(id);
+        return Optional.ofNullable(userRepository.findById(id))
+                .orElseThrow(() -> new ResourceNotFoundException("User id " + id + "not found!"));
 
     }
-
-    public int deleteUser(UUID id) {
-        return userDao.deleteUserById(id);
-    }
-
-    public int updateUser(UUID id, User user)
+    @Transactional
+    @Override
+    public void deleteUser(UUID id)
     {
-        return userDao.updateUserById(id, user);
+        Optional.ofNullable(userRepository.findById(id))
+                .orElseThrow( () -> new ResourceNotFoundException("User id " + id + "not found!"));
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public User updateUser(UUID id, User user)
+    {
+        User currentUser = userRepository.findById(id);
+    if (id == currentUser.getId()) {
+        if (user.getName() != null) {
+            currentUser.setName(user.getName());
+        }
+
+        if (user.getPassword() != null) {
+            currentUser.setPassword(user.getPassword());
+        }
+
+        return userRepository.save(currentUser);
+    }
+    else
+    {
+        throw new ResourceNotFoundException(id + " Not current user");
+    }
 
     }
 
