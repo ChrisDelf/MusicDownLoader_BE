@@ -1,9 +1,9 @@
 package com.example.musicdownloader.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "songs")
 public class Song {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)

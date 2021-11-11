@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class UserController {
         this.songServiceImpl = songServiceImpl;
     }
     @PostMapping
-    public void addUser(@Valid @NonNull @RequestBody User user) {
+    public void addUser( @NonNull @RequestBody User user) {
         userServiceImpl.addUser(user);
 
     }
@@ -50,8 +50,8 @@ public class UserController {
     public User getUserById(@PathVariable("id") UUID id)
     {
 
-        return userServiceImpl.getUserById(id)
-                .orElse(null);
+        return userServiceImpl.getUserById(id);
+
     }
 
     @DeleteMapping(path = "{id}")
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateUser(@Valid @NonNull @RequestBody User user, @PathVariable("id") UUID id)
+    public void updateUser(@NonNull @RequestBody User user, @PathVariable("id") UUID id)
     {
         userServiceImpl.updateUser(id, user);
     }
