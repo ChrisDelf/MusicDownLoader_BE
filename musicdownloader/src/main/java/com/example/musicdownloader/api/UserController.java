@@ -4,6 +4,7 @@ import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
 import com.example.musicdownloader.service.SongServiceImpl;
 import com.example.musicdownloader.service.UserServiceImpl;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -67,12 +68,13 @@ public class UserController {
     }
     /// Music related endpoitns
 
-    @PostMapping(value = "/upload",
+    @PostMapping(value = "/upload/{address}",
             consumes = {"application/json"},
             produces = {"application/json"})
-    public ResponseEntity<?> downloadSong(@RequestBody Song song
+    public ResponseEntity<?> downloadSong(@RequestBody Song song, @PathVariable("address") String address
                                           ) throws Exception {
-        songServiceImpl.uploadSong(song, song.getSongAddress());
+        songServiceImpl.uploadSong(song, address);
+
 
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -81,8 +83,9 @@ public class UserController {
     @GetMapping(value = "/musiclist",
     produces = {"applications/json"})
     public  ResponseEntity<?> getSongList() throws URISyntaxException, IOException {
-
-        return new ResponseEntity<String>(songServiceImpl.getSongList(), HttpStatus.OK);
+      List<Song> tempList = songServiceImpl.getSongList();
+        String json = new Gson().toJson(tempList);
+        return new ResponseEntity<>(json, HttpStatus.OK);
 
     }
 
