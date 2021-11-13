@@ -1,13 +1,14 @@
 package com.example.musicdownloader.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "songs")
 public class Song {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
-    private final long id;
+    private long id;
 
     private String name;
 
@@ -15,29 +16,23 @@ public class Song {
 
     private String artist;
 
-    private String downloadDate;
+    private Date date;
 
-    private String songAddress;
 
-    public Song(long id) {
-        this.id = id;
+
+
+    public Song() {
     }
 
-    public Song(long id, String name, String genre, String artist, String downloadDate) {
+    public Song(long id, String name, String genre, String artist, Date date) {
         this.id = id;
         this.name = name;
         this.genre = genre;
         this.artist = artist;
-        this.downloadDate = downloadDate;
+        this.date = date;
+
     }
 
-    public String getSongAddress() {
-        return songAddress;
-    }
-
-    public void setSongAddress(String songAddress) {
-        this.songAddress = songAddress;
-    }
 
     public String getArtist() {
         return artist;
@@ -45,14 +40,6 @@ public class Song {
 
     public void setArtist(String artist) {
         this.artist = artist;
-    }
-
-    public String getDownloadDate() {
-        return downloadDate;
-    }
-
-    public void setDownloadDate(String downloadDate) {
-        this.downloadDate = downloadDate;
     }
 
 
@@ -74,5 +61,14 @@ public class Song {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

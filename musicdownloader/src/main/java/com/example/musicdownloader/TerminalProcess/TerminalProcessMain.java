@@ -11,7 +11,7 @@ public class TerminalProcessMain {
 
 
 
-    public boolean main(Song song) throws Exception {
+    public boolean main(Song song, String address) throws Exception {
 
         // Where we want to execute
         File location = new File(String.format("/home/dude/Documents/Music/"));
@@ -19,7 +19,7 @@ public class TerminalProcessMain {
         // going to create our commands
         List<String> cmdList = new ArrayList<String>();
         cmdList.add("youtube-dl" );
-        cmdList.add(song.getSongAddress());
+        cmdList.add(address);
 
         //runCommand
 

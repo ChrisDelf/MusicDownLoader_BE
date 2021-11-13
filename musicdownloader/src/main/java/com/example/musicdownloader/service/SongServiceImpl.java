@@ -13,22 +13,26 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SongServiceImpl {
+    @Autowired
     private SongRepository songRepository;
 
-    public int uploadSong(Song song, String songAddress) throws Exception {
+    public int uploadSong(Song song, String address) throws Exception {
         TerminalProcessMain downloadSong = new TerminalProcessMain();
-        downloadSong.main(song);
+        downloadSong.main(song, address);
         return 1;
     }
 
-    public String getSongList() throws IOException {
-        ListofFiles songFiles = new ListofFiles();
-        ArrayList<String> songList = songFiles.main();
-        String json = new Gson().toJson(songList);
-        return json;
+    public List<Song> getSongList() throws IOException {
+
+       List<Song> songList = new ArrayList<>();
+       songRepository.findAll()
+               .iterator()
+               .forEachRemaining(songList::add);
+        return songList;
 
     };
 
