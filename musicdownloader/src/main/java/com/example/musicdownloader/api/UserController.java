@@ -79,7 +79,7 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/musiclist",
     produces = {"applications/json"})
     public  ResponseEntity<?> getSongList() throws URISyntaxException, IOException {

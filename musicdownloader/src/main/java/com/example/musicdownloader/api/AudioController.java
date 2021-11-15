@@ -1,5 +1,8 @@
 package com.example.musicdownloader.api;
 
+import com.example.musicdownloader.Repository.SongRepository;
+import com.example.musicdownloader.service.SongServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/audio")
 public class AudioController {
+    @Autowired
+    private SongRepository songRepository;
 
     public static final String VIDEO_PATH = "/static/videos";
     public static final String AUDIO_PATH = "/home/dude/Documents/Music/";
@@ -27,10 +32,12 @@ public class AudioController {
                                                     @PathVariable("fileName") String fileName) {
         return Mono.just(getContent(VIDEO_PATH, fileName, httpRangeList, "video"));
     }
-    @GetMapping("/audios/{fileName}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/audios/{id}")
     public Mono<ResponseEntity<byte[]>> streamAudio(@RequestHeader(value = "Range", required = false) String httpRangeList,
-                                                    @PathVariable("fileName") String fileName) {
-
+                                                    @PathVariable("id") int id) {
+        String fileName = songRepository.findById(id).getName() + ".mp3";
+        fileName = fileName.replaceAll("\\s", "");
         return Mono.just(getContent(AUDIO_PATH, fileName, httpRangeList, "audio"));
     }
     private ResponseEntity<byte[]> getContent(String location, String fileName, String range, String contentTypePrefix) {
