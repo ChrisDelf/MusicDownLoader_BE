@@ -8,7 +8,7 @@ import java.util.List;
 public class ListofFiles {
     public ArrayList<String> main() throws IOException {
         //Going to create the file object
-        File directoryPath = new File("/home/dude/Documents/Music/");
+        File directoryPath = new File("/home/chris/Documents/Music/");
 
         // List of all files
         String contents[] = directoryPath.list();

@@ -1,7 +1,6 @@
 package com.example.musicdownloader.api;
 
 import com.example.musicdownloader.Repository.SongRepository;
-import com.example.musicdownloader.service.SongServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ public class AudioController {
     private SongRepository songRepository;
 
     public static final String VIDEO_PATH = "/static/videos";
-    public static final String AUDIO_PATH = "/home/dude/Documents/Music/";
+    public static final String AUDIO_PATH = "/home/chris/Documents/Music/";
     public static final int BYTE_RANGE = 128; // increase the byterange from here
     @GetMapping("/videos/{fileName}")
     public Mono<ResponseEntity<byte[]>> streamVideo(@RequestHeader(value = "Range", required = false) String httpRangeList,
@@ -36,7 +35,7 @@ public class AudioController {
     @GetMapping("/audios/{id}")
     public Mono<ResponseEntity<byte[]>> streamAudio(@RequestHeader(value = "Range", required = false) String httpRangeList,
                                                     @PathVariable("id") int id) {
-        String fileName = songRepository.findById(id).getName() + ".mp3";
+        String fileName = songRepository.findById(id).getTitle() + ".mp3";
         fileName = fileName.replaceAll("\\s", "");
         return Mono.just(getContent(AUDIO_PATH, fileName, httpRangeList, "audio"));
     }

@@ -14,7 +14,7 @@ public class TerminalProcessMain {
     public boolean main(Song song, String address) throws Exception {
 
         // Where we want to execute
-        File location = new File(String.format("/home/dude/Documents/Music/"));
+        File location = new File(String.format("/home/chris/Documents/Music/"));
 
         // going to create our commands
         List<String> cmdList = new ArrayList<String>();
