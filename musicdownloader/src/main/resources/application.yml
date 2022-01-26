@@ -1,6 +1,6 @@
 app:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5432/musicdb
+    jdbc-url: jdbc:mysql://localhost:3306/musicdb
     username: postgres
-    password: mysecretpassword
+    password: derpo
     pool-size: 30

@@ -92,7 +92,7 @@ public class UserController {
     @GetMapping(value = "/download",
             consumes = {"application/json"})
     public  ResponseEntity<Object> getSongFile(@RequestBody Song song ) throws URISyntaxException, IOException {
-        File songFile = songServiceImpl.transferSongFile(song.getName());
+        File songFile = songServiceImpl.transferSongFile(song.getTitle());
 
 
         InputStreamResource resource = new InputStreamResource(new FileInputStream(songFile));

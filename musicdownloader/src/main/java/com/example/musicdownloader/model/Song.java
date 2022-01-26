@@ -10,7 +10,7 @@ public class Song {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
 
-    private String name;
+    private String title;
 
     private String genre;
 
@@ -24,9 +24,9 @@ public class Song {
     public Song() {
     }
 
-    public Song(long id, String name, String genre, String artist, Date date) {
+    public Song(long id, String title, String genre, String artist, Date date) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.genre = genre;
         this.artist = artist;
         this.date = date;
@@ -47,12 +47,12 @@ public class Song {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getGenre() {
