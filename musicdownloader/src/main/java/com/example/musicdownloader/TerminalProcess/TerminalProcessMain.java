@@ -1,6 +1,7 @@
 package com.example.musicdownloader.TerminalProcess;
 
 import com.example.musicdownloader.model.Song;
+import com.example.musicdownloader.requestBody.uploadRequest;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class TerminalProcessMain {
 
 
 
-    public boolean main(Song song, String address) throws Exception {
+    public boolean main(uploadRequest request) throws Exception {
 
         // Where we want to execute
         File location = new File(String.format("/home/chris/Documents/Music/"));
@@ -19,7 +20,7 @@ public class TerminalProcessMain {
         // going to create our commands
         List<String> cmdList = new ArrayList<String>();
         cmdList.add("youtube-dl" );
-        cmdList.add(address);
+        cmdList.add(request.getAddress());
 
         //runCommand
 

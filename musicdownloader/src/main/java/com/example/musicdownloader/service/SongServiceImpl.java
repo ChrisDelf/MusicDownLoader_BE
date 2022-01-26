@@ -5,6 +5,7 @@ import com.example.musicdownloader.TerminalProcess.TerminalProcessMain;
 import com.example.musicdownloader.Utilities.ListofFiles;
 
 import com.example.musicdownloader.model.Song;
+import com.example.musicdownloader.requestBody.uploadRequest;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,9 +21,9 @@ public class SongServiceImpl {
     @Autowired
     private SongRepository songRepository;
 
-    public int uploadSong(Song song, String address) throws Exception {
-        TerminalProcessMain downloadSong = new TerminalProcessMain();
-        downloadSong.main(song, address);
+    public int uploadSong(uploadRequest request) throws Exception {
+        TerminalProcessMain uploadSong = new TerminalProcessMain();
+        uploadSong.main(request);
         return 1;
     }
 

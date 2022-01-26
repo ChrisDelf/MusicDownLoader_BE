@@ -2,6 +2,7 @@ package com.example.musicdownloader.api;
 
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
+import com.example.musicdownloader.requestBody.uploadRequest;
 import com.example.musicdownloader.service.SongServiceImpl;
 import com.example.musicdownloader.service.UserServiceImpl;
 import com.google.gson.Gson;
@@ -68,12 +69,11 @@ public class UserController {
     }
     /// Music related endpoitns
 
-    @PostMapping(value = "/upload/{address}",
+    @PostMapping(value = "/upload/",
             consumes = {"application/json"},
             produces = {"application/json"})
-    public ResponseEntity<?> downloadSong(@RequestBody Song song, @PathVariable("address") String address
-                                          ) throws Exception {
-        songServiceImpl.uploadSong(song, address);
+    public ResponseEntity<?> uploadSong(@RequestBody uploadRequest request) throws Exception {
+        songServiceImpl.uploadSong(request);
 
 
 
