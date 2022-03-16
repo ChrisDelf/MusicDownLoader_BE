@@ -58,8 +58,23 @@ public class TerminalProcessMain {
     private static void printStream(InputStream inputStream) throws IOException {
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
+            String songName;
+            boolean foundName = false;
             while((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
+                if (line.length() > 3) {
+
+                        if (foundName == false ) {
+                            String readOut = line.substring(line.indexOf("]") + 2, line.indexOf(":"));
+
+                            if (readOut.equals("Destination")) {
+                                songName = line.substring(line.indexOf(":") + 1, line.indexOf("."));
+                                foundName = true;
+                            }
+                        }
+
+
+                    System.out.println(line);
+                }
             }
 
         }

@@ -22,6 +22,7 @@ public class SongServiceImpl {
     private SongRepository songRepository;
 
     public int uploadSong(uploadRequest request) throws Exception {
+        System.out.println(request);
         TerminalProcessMain uploadSong = new TerminalProcessMain();
         uploadSong.main(request);
         return 1;
