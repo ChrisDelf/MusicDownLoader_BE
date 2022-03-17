@@ -16,6 +16,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 @RestController
 @RequestMapping("/audio")
@@ -35,6 +36,7 @@ public class AudioController {
     @GetMapping("/audios/{id}")
     public Mono<ResponseEntity<byte[]>> streamAudio(@RequestHeader(value = "Range", required = false) String httpRangeList,
                                                     @PathVariable("id") int id) {
+
         String fileName = songRepository.findById(id).getTitle() + ".mp3";
         fileName = fileName.replaceAll("\\s", "");
         return Mono.just(getContent(AUDIO_PATH, fileName, httpRangeList, "audio"));
