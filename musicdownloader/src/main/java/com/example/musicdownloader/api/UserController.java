@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,12 +69,16 @@ public class UserController {
         userServiceImpl.updateUser(id, user);
     }
     /// Music related endpoitns
-
-    @PostMapping(value = "/upload/",
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(value = "/upload",
             consumes = {"application/json"},
             produces = {"application/json"})
     public ResponseEntity<?> uploadSong(@RequestBody uploadRequest request) throws Exception {
-        songServiceImpl.uploadSong(request);
+        ArrayList<Song> songsDownloaded = new ArrayList<Song>();
+        songsDownloaded = songServiceImpl.uploadSong(request);
+
+        songServiceImpl.saveSong(songsDownloaded);
+
 
 
 

@@ -17,17 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SongServiceImpl {
+public class SongServiceImpl implements SongService{
     @Autowired
     private SongRepository songRepository;
 
-    public int uploadSong(uploadRequest request) throws Exception {
+    @Override
+    public ArrayList<Song> uploadSong(uploadRequest request) throws Exception {
+        ArrayList<Song> songsDownloaded = new ArrayList<Song>();
         System.out.println(request);
         TerminalProcessMain uploadSong = new TerminalProcessMain();
-        uploadSong.main(request);
-        return 1;
+        songsDownloaded = uploadSong.main(request);
+        return songsDownloaded;
     }
 
+    @Override
     public List<Song> getSongList() throws IOException {
 
        List<Song> songList = new ArrayList<>();
@@ -42,5 +45,20 @@ public class SongServiceImpl {
         File songFile = new File("/home/chris/Documents/Music/"+ songName);
 
     return songFile;
+    }
+
+
+
+    @Override
+    public ArrayList<Song> saveSong(ArrayList<Song> songs) {
+        for (Song song: songs)
+        {
+            System.out.println(song.getTitle());
+
+            songRepository.save(song);
+
+        }
+
+        return null;
     }
 }

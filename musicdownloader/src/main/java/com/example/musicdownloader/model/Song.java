@@ -7,7 +7,7 @@ import java.util.Date;
 @Table(name = "songs")
 public class Song {
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY )
     private long id;
 
     private String title;
@@ -24,8 +24,8 @@ public class Song {
     public Song() {
     }
 
-    public Song(long id, String title, String genre, String artist, Date date) {
-        this.id = id;
+    public Song( String title, String genre, String artist, Date date) {
+
         this.title = title;
         this.genre = genre;
         this.artist = artist;
@@ -43,9 +43,7 @@ public class Song {
     }
 
 
-    public long getId() {
-        return id;
-    }
+
 
     public String getTitle() {
         return title;

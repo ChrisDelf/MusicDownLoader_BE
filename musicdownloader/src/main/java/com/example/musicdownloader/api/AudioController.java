@@ -1,6 +1,7 @@
 package com.example.musicdownloader.api;
 
 import com.example.musicdownloader.Repository.SongRepository;
+import com.example.musicdownloader.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +37,15 @@ public class AudioController {
     @GetMapping("/audios/{id}")
     public Mono<ResponseEntity<byte[]>> streamAudio(@RequestHeader(value = "Range", required = false) String httpRangeList,
                                                     @PathVariable("id") int id) {
-
-        String fileName = songRepository.findById(id).getTitle() + ".mp3";
-        fileName = fileName.replaceAll("\\s", "");
-        return Mono.just(getContent(AUDIO_PATH, fileName, httpRangeList, "audio"));
+        Song song = songRepository.findById(id);
+        if (song != null ) {
+            String fileName = songRepository.findById(id).getTitle() + ".mp3";
+            fileName = fileName.stripLeading();
+            return Mono.just(getContent(AUDIO_PATH, fileName, httpRangeList, "audio"));
+        }
+        else {
+            return null;
+        }
     }
     private ResponseEntity<byte[]> getContent(String location, String fileName, String range, String contentTypePrefix) {
         long rangeStart = 0;
