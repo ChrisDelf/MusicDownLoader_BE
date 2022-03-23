@@ -1,8 +1,11 @@
 package com.example.musicdownloader.api;
 
+import com.example.musicdownloader.model.Playlist;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.model.User;
+import com.example.musicdownloader.requestBody.TerminalOutput;
 import com.example.musicdownloader.requestBody.uploadRequest;
+import com.example.musicdownloader.service.PlaylistService;
 import com.example.musicdownloader.service.SongServiceImpl;
 import com.example.musicdownloader.service.UserServiceImpl;
 import com.google.gson.Gson;
@@ -14,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
+
 
 
 import java.io.File;
@@ -28,6 +32,9 @@ import java.util.UUID;
 @RestController
 public class UserController {
     private final UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private PlaylistService playlistService;
 
 
     private final SongServiceImpl songServiceImpl;
@@ -74,10 +81,20 @@ public class UserController {
             consumes = {"application/json"},
             produces = {"application/json"})
     public ResponseEntity<?> uploadSong(@RequestBody uploadRequest request) throws Exception {
-        ArrayList<Song> songsDownloaded = new ArrayList<Song>();
-        songsDownloaded = songServiceImpl.uploadSong(request);
 
-        songServiceImpl.saveSong(songsDownloaded);
+        TerminalOutput terminalOutput = new TerminalOutput();
+        terminalOutput = songServiceImpl.uploadSong(request);
+
+        songServiceImpl.saveSong(terminalOutput.getSongs());
+        if (terminalOutput.getPlayListName() != null )
+        {
+            Playlist tempPlaylist = new Playlist();
+            tempPlaylist.setName(terminalOutput.getPlayListName());
+            tempPlaylist.setPlaylistSongs(terminalOutput.getSongs());
+            playlistService.createPlaylist(tempPlaylist);
+        }
+
+
 
 
 

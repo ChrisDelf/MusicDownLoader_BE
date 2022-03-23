@@ -75,5 +75,7 @@ public class Song {
         return date;
     }
 
-
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

@@ -32,9 +32,7 @@ public class Playlist {
     public Playlist() {
     }
 
-    public Playlist(String name) {
-        name = name;
-    }
+
 
     public long getId() {
         return playlistId;
@@ -45,7 +43,15 @@ public class Playlist {
     }
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public List<Song> getPlaylistSongs() {
