@@ -46,6 +46,7 @@ public class TerminalProcessMain {
         InputStream errorStream = process.getErrorStream();
 
         songsDownloaded = printStream(inputStream);
+
         printStream(errorStream);
 
         boolean isFinished = process.waitFor(30, TimeUnit.SECONDS);
@@ -72,7 +73,7 @@ public class TerminalProcessMain {
 
             while((line = bufferedReader.readLine()) != null) {
                 if (line.length() > 3) {
-                        if (foundName == false ) {
+
                             //going to need to check if : exists in the line before we  indexOf
                             for (int i = 0; (line.length()) > i; i++) {
 
@@ -83,26 +84,39 @@ public class TerminalProcessMain {
                             }
 
                             if (isReadable == true) {
-                                String readOut = line.substring(line.indexOf("]") + 2, line.indexOf(":"));
+
+                                String readOut = line.substring(line.indexOf("]") + 2, line.lastIndexOf(":"));
+
                             // If the song is successfully downloaded we want to added to an array to save for later.
+
                                 if (readOut.equals("Destination")) {
+
                                     Song tempSong = new Song();
                                     songName = line.substring(line.indexOf(":") + 1, line.indexOf(".mp3"));
                                     tempSong.setTitle(songName);
                                     songsDownloaded.add(tempSong);
 
-                                    foundName = true;
+
 
                                 }
+                                if (readOut.equals("Downloading playlist"))
+                                {
+
+
+                                }
+
                                 isReadable = false;
-                            }
+
                         }
 
-                    System.out.println(line);
+                  System.out.println(line);
                 }
             }
 
         }
         return songsDownloaded;
     }
+
+
+
 }

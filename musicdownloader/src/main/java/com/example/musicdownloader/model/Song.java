@@ -1,11 +1,15 @@
 package com.example.musicdownloader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "songs")
 public class Song {
+
     @Id
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY )
     private long id;
@@ -16,20 +20,27 @@ public class Song {
 
     private String artist;
 
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "playlistId",
+    nullable = true)
+    @JsonIgnoreProperties("Song")
+    private Playlist playlist;
 
 
 
     public Song() {
     }
 
-    public Song( String title, String genre, String artist, Date date) {
+    public Song(String title, String genre, String artist, Playlist playlist) {
 
         this.title = title;
         this.genre = genre;
         this.artist = artist;
-        this.date = date;
+
 
     }
 
@@ -41,7 +52,6 @@ public class Song {
     public void setArtist(String artist) {
         this.artist = artist;
     }
-
 
 
 
@@ -61,12 +71,9 @@ public class Song {
         this.genre = genre;
     }
 
-
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+
 }
