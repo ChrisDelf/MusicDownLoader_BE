@@ -1,21 +1,20 @@
 package com.example.musicdownloader.TerminalProcess;
 
-import com.example.musicdownloader.Repository.SongRepository;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.requestBody.uploadRequest;
-import com.example.musicdownloader.service.SongServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.musicdownloader.requestBody.TerminalOutput;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+
 public class TerminalProcessMain {
 
 
 
-    public ArrayList<Song> main(uploadRequest request) throws Exception {
+    public TerminalOutput main(uploadRequest request) throws Exception {
 
         // Where we want to execute
         File location = new File(String.format("/home/chris/Documents/Music/"));
@@ -31,8 +30,8 @@ public class TerminalProcessMain {
         return runCommand(location,cmdList);
     }
 
-    public static ArrayList<Song> runCommand(File whereToRun, List<String> cmdList) throws Exception {
-        ArrayList<Song> songsDownloaded = new ArrayList<Song>();
+    public static TerminalOutput runCommand(File whereToRun, List<String> cmdList) throws Exception {
+        TerminalOutput songOutput = new TerminalOutput();
         System.out.println("we are running in: "+ whereToRun);
         System.out.println("Our Command is: " + cmdList);
 
@@ -45,7 +44,7 @@ public class TerminalProcessMain {
         InputStream inputStream = process.getInputStream();
         InputStream errorStream = process.getErrorStream();
 
-        songsDownloaded = printStream(inputStream);
+        songOutput = printStream(inputStream);
 
         printStream(errorStream);
 
@@ -55,19 +54,21 @@ public class TerminalProcessMain {
 
         if(!isFinished) {
             process.destroyForcibly();
-            return songsDownloaded;
+            return songOutput;
         }
-        return songsDownloaded;
+        return songOutput;
     }
 
-    private static ArrayList<Song> printStream(InputStream inputStream) throws IOException {
+    private static TerminalOutput printStream(InputStream inputStream) throws IOException {
 
         ArrayList<Song> songsDownloaded = new ArrayList<Song>();
-
+        TerminalOutput songOutput = new TerminalOutput();
+        String playlistName;
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
 
             String line;
             String songName;
+
             boolean foundName = false;
             boolean isReadable = false;
 
@@ -101,8 +102,9 @@ public class TerminalProcessMain {
                                 }
                                 if (readOut.equals("Downloading playlist"))
                                 {
-
-
+                                    int lineL = line.length();
+                                    playlistName = line.substring(line.indexOf(":") + 1, lineL);
+                                    songOutput.setPlaylistName(playlistName);
                                 }
 
                                 isReadable = false;
@@ -114,7 +116,9 @@ public class TerminalProcessMain {
             }
 
         }
-        return songsDownloaded;
+
+        songOutput.setSongs(songsDownloaded);
+        return songOutput;
     }
 
 

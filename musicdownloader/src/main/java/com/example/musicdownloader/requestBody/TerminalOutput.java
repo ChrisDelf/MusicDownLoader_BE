@@ -4,23 +4,26 @@ import com.example.musicdownloader.model.Song;
 
 import java.util.ArrayList;
 
-public class tempPlaylist {
+public class TerminalOutput {
 
-    String PlayListName;
+    String playlistName;
 
     ArrayList<Song> songs = new ArrayList<>();
 
-    public tempPlaylist(String playListName, ArrayList<Song> songs) {
-        PlayListName = playListName;
+    public TerminalOutput() {
+    }
+
+    public TerminalOutput(String playlistName, ArrayList<Song> songs) {
+        this.playlistName = playlistName;
         this.songs = songs;
     }
 
     public String getPlayListName() {
-        return PlayListName;
+        return playlistName;
     }
 
-    public void setPlayListName(String playListName) {
-        PlayListName = playListName;
+    public void setPlaylistName(String playlistName) {
+        this.playlistName = playlistName;
     }
 
     public ArrayList<Song> getSongs() {
