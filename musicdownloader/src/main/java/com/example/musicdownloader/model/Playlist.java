@@ -4,17 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
 @Entity
-@Table(name = "playlists")
-public class Playlist {
+@Table(name = "playlist")
+public class Playlist implements Serializable {
 
     @Id
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY )
-    private long playlistId;
+    private long id;
 
 
     private String name;
@@ -27,15 +28,17 @@ public class Playlist {
     cascade = CascadeType.ALL,
     orphanRemoval = true)
     @JsonIgnoreProperties("playlist")
-    private List<Song> playlistSongs = new ArrayList<>();
+    private List<Song> songs = new ArrayList<>();
 
     public Playlist() {
     }
 
-
+    public Playlist(List<Song> songs) {
+        this.songs = songs;
+    }
 
     public long getId() {
-        return playlistId;
+        return id;
     }
 
     public String getName() {
@@ -54,11 +57,11 @@ public class Playlist {
         this.date = date;
     }
 
-    public List<Song> getPlaylistSongs() {
-        return playlistSongs;
+    public List<Song> getSongs() {
+        return songs;
     }
 
-    public void setPlaylistSongs(List<Song> playlistSongs) {
-        this.playlistSongs = playlistSongs;
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
     }
 }
