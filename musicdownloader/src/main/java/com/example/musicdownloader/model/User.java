@@ -19,6 +19,8 @@ public class User {
 
     private String password;
 
+
+
     public User( UUID id,
                  String name) {
         this.id = id;

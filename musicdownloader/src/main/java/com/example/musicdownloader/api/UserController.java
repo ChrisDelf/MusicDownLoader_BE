@@ -8,6 +8,7 @@ import com.example.musicdownloader.requestBody.TerminalOutput;
 import com.example.musicdownloader.requestBody.uploadRequest;
 import com.example.musicdownloader.service.PlaylistService;
 import com.example.musicdownloader.service.SongServiceImpl;
+import com.example.musicdownloader.service.UserService;
 import com.example.musicdownloader.service.UserServiceImpl;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +35,40 @@ import java.util.UUID;
 @RequestMapping("api/user")
 @RestController
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+
+    @GetMapping("/all_users")
+    public ResponseEntity<?> getAllUsers()throws Exception{
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/create_user",
+            consumes = {"application/json"},
+            produces = {"application/json"})
+    public ResponseEntity<?> CreateUser(HttpServletRequest request, @Validated
+    @RequestBody User newuser) throws Exception{
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = "/updated_user",
+            consumes = {"application/json"},
+            produces = {"application/json"})
+    public ResponseEntity<?> UpdateUser(HttpServletRequest request, @Validated
+    @RequestBody User newuser) throws Exception{
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 
 
