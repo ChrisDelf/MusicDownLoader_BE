@@ -10,8 +10,8 @@ public interface UserService {
 
     public User addUser(User user);
     public List<User> getAllUser();
-    public User getUserById(UUID id);
-    public void deleteUser(UUID id);
-    public User updateUser(UUID id, User user);
+    public User getUserById(long id);
+    public void deleteUser(long id);
+    public User updateUser(long id, User user);
 
 }
