@@ -1,5 +1,6 @@
 package com.example.musicdownloader.service;
 
+import com.example.musicdownloader.model.Playlist;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.requestBody.TerminalOutput;
 import com.example.musicdownloader.requestBody.uploadRequest;
@@ -14,5 +15,7 @@ public interface SongService {
     public List<Song> getSongList() throws IOException;
     public File transferSongFile(String songName);
     public ArrayList<Song> saveSong(ArrayList<Song> songs);
+    public Song updateSong(Song song);
+    public Song getSongById(long id);
 
 }

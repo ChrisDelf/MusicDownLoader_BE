@@ -4,6 +4,7 @@ import com.example.musicdownloader.Repository.SongRepository;
 import com.example.musicdownloader.TerminalProcess.TerminalProcessMain;
 import com.example.musicdownloader.Utilities.ListofFiles;
 
+import com.example.musicdownloader.exceptions.ResourceNotFoundException;
 import com.example.musicdownloader.model.Playlist;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.requestBody.uploadRequest;
@@ -22,6 +23,9 @@ import java.util.List;
 public class SongServiceImpl implements SongService{
     @Autowired
     private SongRepository songRepository;
+
+    @Autowired
+    private SongService songService;
 
 
     @Override
@@ -56,15 +60,49 @@ public class SongServiceImpl implements SongService{
 
     @Override
     public ArrayList<Song> saveSong(ArrayList<Song> songs) {
-        for (Song song: songs)
-        {
-            Date date = new Date();
-            System.out.println(song.getTitle());
-            song.setDate(date);
-            songRepository.save(song);
+
+
+            for (Song song : songs) {
+                Date date = new Date();
+                song.setDate(date);
+                songRepository.save(song);
 
         }
 
-        return null;
+
+        return songs;
+    }
+
+    @Override
+    public Song getSongById(long id) throws ResourceNotFoundException {
+        Song song = songRepository.findById(id);
+
+        if (song == null)
+        {
+            throw new ResourceNotFoundException("The song by the id of " + id + "was not found");
+
+        }
+        else
+        {
+            return song;
+        }
+
+
+    }
+
+    @Override
+    public Song updateSong(Song song) {
+        Song target_song = songService.getSongById(song.getId());
+
+        if (target_song == null) {
+            return null;
+        }
+        if(target_song.getPlaylist() != song.getPlaylist())
+        {
+            target_song.setPlaylist(song.getPlaylist());
+        }
+
+        songRepository.save(target_song);
+        return target_song;
     }
 }
