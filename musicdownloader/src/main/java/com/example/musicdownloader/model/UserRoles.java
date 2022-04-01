@@ -16,13 +16,13 @@ public class UserRoles implements Serializable
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("userroles")
+    @JsonIgnoreProperties("user_roles")
     private User user;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnoreProperties("userroles")
+    @JsonIgnoreProperties("user_roles")
     private Role role;
 
     public UserRoles()

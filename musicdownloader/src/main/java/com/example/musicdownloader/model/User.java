@@ -1,5 +1,6 @@
 package com.example.musicdownloader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,12 +32,12 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
+    @JsonIgnore
     private List<UserRoles> user_roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",
     cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
+    @JsonIgnore
     private List<Playlist> playlists = new ArrayList<>();
 
     public User() {

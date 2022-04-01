@@ -10,21 +10,23 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/user")
 @RestController
 public class UserController {
 
-//    @Autowired
-//    private UserService userService;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/all_users")
-    public ResponseEntity<?> getAllUsers()throws Exception{
+    public ResponseEntity<List<User>> getAllUsers()throws Exception{
+           List<User> tempUsers = userService.getAllUser();
 
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(tempUsers, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create_user",
@@ -46,6 +48,9 @@ public class UserController {
 
 
         return new ResponseEntity<>(HttpStatus.OK);
+
+
+
     }
 
 
