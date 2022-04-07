@@ -11,4 +11,5 @@ public interface PlaylistService {
     public Playlist updatePlaylist(Playlist playlist);
     public List<Playlist> allPlaylist();
     public Playlist  getByPlaylistId(long id);
+    public void addSong(Long songId , Playlist playlist);
 }

@@ -6,6 +6,7 @@ package com.example.musicdownloader.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -31,10 +32,11 @@ public class Song implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @ManyToOne(targetEntity = Playlist.class,cascade =CascadeType.ALL)
+    @ManyToOne(targetEntity = Playlist.class,
+            cascade =CascadeType.ALL)
     @JoinColumn(name = "playlist_id",
     nullable = true)
-    @JsonIgnoreProperties("playlist")
+    @JsonIgnore
     private Playlist playlist;
 
 

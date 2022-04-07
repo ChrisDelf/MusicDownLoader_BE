@@ -25,6 +25,7 @@ public class UserController {
     @GetMapping("/all_users")
     public ResponseEntity<List<User>> getAllUsers()throws Exception{
            List<User> tempUsers = userService.getAllUser();
+        System.out.println(tempUsers.get(0).getPlaylists());
 
         return new ResponseEntity<>(tempUsers, HttpStatus.OK);
     }
