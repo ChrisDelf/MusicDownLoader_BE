@@ -3,10 +3,9 @@ package com.example.musicdownloader.Repository;
 import com.example.musicdownloader.model.User;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.UUID;
 
 public interface UserRepository extends CrudRepository <User, Long> {
-    User findByName(String username);
-    User findById(UUID id);
-    User deleteById(UUID id);
+    User findByusername(String username);
+    User findById(long id);
+    User deleteById(long id);
 }

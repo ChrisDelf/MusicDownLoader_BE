@@ -30,6 +30,14 @@ public class Playlist implements Serializable {
     @JsonIgnoreProperties("playlist")
     private List<Song> songs = new ArrayList<>();
 
+    @ManyToOne(targetEntity = Playlist.class,cascade =CascadeType.ALL)
+    @JoinColumn(name = "user_id",
+            nullable = true)
+    @JsonIgnoreProperties("user")
+    private User user;
+
+
+
     public Playlist() {
     }
 

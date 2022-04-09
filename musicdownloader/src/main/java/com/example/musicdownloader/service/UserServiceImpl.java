@@ -6,7 +6,6 @@ import com.example.musicdownloader.exceptions.ResourceFoundException;
 import com.example.musicdownloader.exceptions.ResourceNotFoundException;
 import com.example.musicdownloader.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
@@ -14,33 +13,32 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-@Service
+@Service(value = "userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepo;
 
-    @Transactional
+
     @Override
     public User addUser(User user){
 
-        if (userRepository.findByName(user.getName()) != null)
+        if (userRepo.findByusername(user.getUsername()) != null)
         {
-            throw new ResourceFoundException(user.getName() + "is already taken!");
+            throw new ResourceFoundException(user.getUsername() + "is already taken!");
         }
-        UUID uuid = UUID.randomUUID();
-        User newUser = new User(uuid, user.getName());
+
+        User newUser = new User(user.getUsername(), user.getPassword(), null);
         newUser.setPassword(user.getPassword());
 
-        return userRepository.save(newUser);
+        return userRepo.save(newUser);
     }
 
     @Override
     public List<User> getAllUser() {
         List<User> list = new ArrayList<>();
-        userRepository.findAll()
+        userRepo.findAll()
                 .iterator()
                 .forEachRemaining(list::add);
         return list;
@@ -48,36 +46,36 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User getUserById(UUID id) throws ResourceNotFoundException
+    public User getUserById(long id) throws ResourceNotFoundException
     {
-        return Optional.ofNullable(userRepository.findById(id))
+        return Optional.ofNullable(userRepo.findById(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User id " + id + "not found!"));
 
     }
     @Transactional
     @Override
-    public void deleteUser(UUID id)
+    public void deleteUser(long id)
     {
-        Optional.ofNullable(userRepository.findById(id))
+        Optional.ofNullable(userRepo.findById(id))
                 .orElseThrow( () -> new ResourceNotFoundException("User id " + id + "not found!"));
-        userRepository.deleteById(id);
+        userRepo.deleteById(id);
     }
 
     @Transactional
     @Override
-    public User updateUser(UUID id, User user)
+    public User updateUser(long id, User user)
     {
-        User currentUser = userRepository.findById(id);
+        User currentUser = userRepo.findById(id);
     if (id == currentUser.getId()) {
-        if (user.getName() != null) {
-            currentUser.setName(user.getName());
+        if (user.getUsername() != null) {
+            currentUser.setUsername(user.getUsername());
         }
 
         if (user.getPassword() != null) {
             currentUser.setPassword(user.getPassword());
         }
 
-        return userRepository.save(currentUser);
+        return userRepo.save(currentUser);
     }
     else
     {

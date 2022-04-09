@@ -6,8 +6,8 @@ import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.requestBody.TerminalOutput;
 import com.example.musicdownloader.requestBody.uploadRequest;
 import com.example.musicdownloader.service.PlaylistService;
+import com.example.musicdownloader.service.SongService;
 import com.example.musicdownloader.service.SongServiceImpl;
-import com.example.musicdownloader.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -33,11 +33,7 @@ public class SongController {
     private PlaylistService playlistService;
 
     @Autowired
-    private  SongServiceImpl songServiceImpl;
-
-
-
-
+    private SongService songService;
 
     @PostMapping(value = "/upload",
             consumes = {"application/json"},
@@ -45,8 +41,8 @@ public class SongController {
     public ResponseEntity<?> uploadSong(@RequestBody uploadRequest request) throws Exception {
         ArrayList<Song> songs = new ArrayList<>();
         TerminalOutput terminalOutput = new TerminalOutput();
-        terminalOutput = songServiceImpl.uploadSong(request);
-        songs = songServiceImpl.saveSong(terminalOutput.getSongs());
+        terminalOutput = songService.uploadSong(request);
+        songs = songService.saveSong(terminalOutput.getSongs());
 
 
         if (terminalOutput.getPlayListName() != null )
@@ -57,7 +53,7 @@ public class SongController {
 
             for (Song song : terminalOutput.getSongs()) {
                 song.setPlaylist(playlistService.getByPlaylistId( newPlaylist.getId()));
-                songServiceImpl.updateSong(song);
+                songService.updateSong(song);
 
             }
         }
@@ -67,7 +63,7 @@ public class SongController {
 
     @GetMapping(value = "/music_list")
     public  ResponseEntity<List<Song>> getSongList() throws URISyntaxException, IOException {
-        List<Song> tempList = songServiceImpl.getSongList();
+        List<Song> tempList = songService.getSongList();
 
         return new ResponseEntity<>(tempList, HttpStatus.OK);
 
@@ -76,7 +72,7 @@ public class SongController {
     @GetMapping(value = "/download",
             consumes = {"application/json"})
     public  ResponseEntity<Object> getSongFile(@RequestBody Song song ) throws URISyntaxException, IOException {
-        File songFile = songServiceImpl.transferSongFile(song.getTitle());
+        File songFile = songService.transferSongFile(song.getTitle());
 
 
         InputStreamResource resource = new InputStreamResource(new FileInputStream(songFile));

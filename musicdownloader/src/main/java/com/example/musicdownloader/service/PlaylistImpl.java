@@ -1,8 +1,10 @@
 package com.example.musicdownloader.service;
 
 import com.example.musicdownloader.Repository.PlaylistRepository;
+import com.example.musicdownloader.Repository.SongRepository;
 import com.example.musicdownloader.exceptions.ResourceNotFoundException;
 import com.example.musicdownloader.model.Playlist;
+import com.example.musicdownloader.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,12 @@ public class PlaylistImpl implements PlaylistService{
 
     @Autowired
     private PlaylistService playlistService;
+
+    @Autowired
+    private SongRepository songRepository;
+
+    @Autowired
+    SongService songService;
 
     @Override
     public Playlist createPlaylist(Playlist playlist) {
@@ -50,14 +58,31 @@ public class PlaylistImpl implements PlaylistService{
             target_playlist.setName(playlist.getName());
         }
 
-        if (playlist.getSongs().size() != target_playlist.getSongs().size())
-        {
-            target_playlist.setSongs(playlist.getSongs());
-        }
+//        if (playlist.getSongs().size() != target_playlist.getSongs().size())
+//        {
+//            for (Song song: playlist.getSongs()) {
+//
+//
+//                target_playlist.getSongs().add(song);
+//
+//
+//            }
+//            System.out.println(target_playlist.getSongs().get(0).getTitle());
+//        }
 
-      //  playlistRepository.save(target_playlist);
+        playlistRepository.save(target_playlist);
 
         return target_playlist;
+    }
+
+    @Override
+    public void addSong(Long songId, Playlist playlist) {
+        Song song = songService.getSongById(songId);
+        song.setPlaylist(playlistRepository.findById(playlist.getId()));
+
+        songRepository.save(song);
+
+
     }
 
     @Override

@@ -6,11 +6,9 @@ import com.example.musicdownloader.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -35,6 +33,42 @@ public class PlaylistController {
 
         return new ResponseEntity<>(tempList, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{id}",
+    produces = {"application/json"})
+    public ResponseEntity<?> getPlaylistById(HttpServletRequest request, @PathVariable Long id)
+    {
+        Playlist tempPlaylist = playlistService.getByPlaylistId(id);
+        System.out.println(tempPlaylist.getSongs().get(0).getTitle());
+        return new ResponseEntity<>(tempPlaylist, HttpStatus.OK);
+    }
+
+    @PostMapping(value= "/create",
+            consumes = {"application/json"},
+            produces = {"application/json"})
+    public ResponseEntity<?> createAPlaylist(HttpServletRequest request,
+    @RequestBody
+            Playlist playlist)throws URISyntaxException, IOException
+    {
+
+
+        playlistService.createPlaylist(playlist);
+
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+    @PutMapping(value= "/update/{songId}",
+    consumes = {"application/json"},
+    produces = {"application/json"})
+    public ResponseEntity<?> update(HttpServletRequest request,
+                                    @PathVariable Long songId,
+                                    @RequestBody Playlist playlist)
+    {
+        playlistService.addSong(songId, playlist);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 
 }
