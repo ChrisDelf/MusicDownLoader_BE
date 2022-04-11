@@ -3,6 +3,7 @@ package com.example.musicdownloader.service;
 import com.example.musicdownloader.Repository.PlaylistRepository;
 import com.example.musicdownloader.Repository.SongRepository;
 import com.example.musicdownloader.exceptions.ResourceNotFoundException;
+import com.example.musicdownloader.model.AddSong;
 import com.example.musicdownloader.model.Playlist;
 import com.example.musicdownloader.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlaylistImpl implements PlaylistService{
@@ -110,4 +112,36 @@ public class PlaylistImpl implements PlaylistService{
         }
 
     }
+
+    @Transactional
+    @Override
+    public void addSong(long playlist_id, long song_id) {
+
+        // we are going to create a unique instance of addSong so that song can remain untethered
+        // basicly it stops the issue when someone adds the same song to their playlist it removes the previous key
+
+        // instantiating our objects
+        AddSong newAddSong = new AddSong();
+        Song selectedSong = new Song();
+        Playlist selectedPlaylist = new Playlist();
+
+        // checking for the existence of our playlist in our database
+       selectedPlaylist = Optional.ofNullable(playlistRepository.findById(playlist_id))
+                .orElseThrow(() -> new ResourceNotFoundException("Playlist id of :"+ playlist_id+ " was not found!"));
+        //checking for the existence  of our song in our database
+        selectedSong = Optional.ofNullable(songRepository.findById(song_id))
+                .orElseThrow(() -> new ResourceNotFoundException("Song of the id :"+ song_id + " was not found!"));
+
+
+        // check to make soure that we have both a playlist and a song
+        if (selectedPlaylist != null & selectedSong != null )
+        {
+            newAddSong.setSong(selectedSong);
+            newAddSong.setPlaylist(selectedPlaylist);
+
+        }
+
+
+        }
+
 }
