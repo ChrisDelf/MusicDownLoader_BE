@@ -1,5 +1,6 @@
 package com.example.musicdownloader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -24,11 +25,7 @@ public class Playlist implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @OneToMany(mappedBy = "playlist",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
-    @JsonIgnoreProperties("playlist")
-    private List<Song> songs = new ArrayList<>();
+
 
     @ManyToOne(targetEntity = Playlist.class,cascade =CascadeType.ALL)
     @JoinColumn(name = "user_id",
@@ -36,14 +33,17 @@ public class Playlist implements Serializable {
     @JsonIgnoreProperties("user")
     private User user;
 
+    @OneToMany(mappedBy = "playlist",
+            cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("playlist")
+    private List <AddSong> songs = new ArrayList<>();
+
 
 
     public Playlist() {
     }
 
-    public Playlist(List<Song> songs) {
-        this.songs = songs;
-    }
+
 
     public long getId() {
         return id;
@@ -65,11 +65,11 @@ public class Playlist implements Serializable {
         this.date = date;
     }
 
-    public List<Song> getSongs() {
+    public List<AddSong> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(List<AddSong> songs) {
         this.songs = songs;
     }
 }

@@ -12,16 +12,16 @@ public class AddPlaylist implements Serializable {
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY )
     private long id;
 
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "playlist_id")
+    @JoinColumn(name = "add_playlist_playlist_id")
     @JsonIgnoreProperties("addPlaylist")
     private Playlist playlist;
 
-    @Id
+    
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("user_roles")
+    @JoinColumn(name = "add_playlist_user_id")
+    @JsonIgnoreProperties("user")
     private User user;
 
     public AddPlaylist() {

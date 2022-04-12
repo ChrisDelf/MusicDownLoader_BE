@@ -38,7 +38,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user",
     cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Playlist> playlists = new ArrayList<>();
+    private List<AddPlaylist> playlists = new ArrayList<>();
+
+
 
     public User() {
     }
@@ -82,11 +84,11 @@ public class User implements Serializable {
         return id;
     }
 
-    public List<Playlist> getPlaylists() {
+    public List<AddPlaylist> getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(List<Playlist> playlists) {
+    public void setPlaylists(List<AddPlaylist> playlists) {
         this.playlists = playlists;
     }
 }

@@ -13,15 +13,18 @@ public class AddSong implements Serializable {
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY )
     private long id;
 
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "song_id")
-    @JsonIgnoreProperties("addsongs")
+//    @Transient
+    @JoinColumn(name = "add_song_FK_song_id")
+    @JsonIgnoreProperties("addsong")
     private Song song;
 
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "playlist_id")
+   // @Transient
+    @JoinColumn(name = "add_song_FK_playlist_id" )
+    @JsonIgnoreProperties("playlist")
     private Playlist playlist;
 
     public AddSong() {

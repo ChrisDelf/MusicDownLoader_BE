@@ -1,6 +1,7 @@
 package com.example.musicdownloader.api;
 
 
+import com.example.musicdownloader.model.AddSong;
 import com.example.musicdownloader.model.Playlist;
 import com.example.musicdownloader.model.Song;
 import com.example.musicdownloader.requestBody.TerminalOutput;
@@ -40,6 +41,7 @@ public class SongController {
             produces = {"application/json"})
     public ResponseEntity<?> uploadSong(@RequestBody uploadRequest request) throws Exception {
         ArrayList<Song> songs = new ArrayList<>();
+        ArrayList<AddSong> playlistSong = new ArrayList<>();
         TerminalOutput terminalOutput = new TerminalOutput();
         terminalOutput = songService.uploadSong(request);
         songs = songService.saveSong(terminalOutput.getSongs());
@@ -47,15 +49,21 @@ public class SongController {
 
         if (terminalOutput.getPlayListName() != null )
         {   Playlist newPlaylist = new Playlist();
-            newPlaylist.setSongs(songs);
             newPlaylist.setName(terminalOutput.getPlayListName());
             playlistService.createPlaylist(newPlaylist);
 
             for (Song song : terminalOutput.getSongs()) {
-                song.setPlaylist(playlistService.getByPlaylistId( newPlaylist.getId()));
-                songService.updateSong(song);
+
+                playlistService.addSong(newPlaylist.getId() ,song.getId());
+
+
 
             }
+
+
+
+
+
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.example.musicdownloader.service;
 
+import com.example.musicdownloader.Repository.AddSongRepository;
 import com.example.musicdownloader.Repository.PlaylistRepository;
 import com.example.musicdownloader.Repository.SongRepository;
 import com.example.musicdownloader.exceptions.ResourceNotFoundException;
@@ -25,6 +26,9 @@ public class PlaylistImpl implements PlaylistService{
 
     @Autowired
     private SongRepository songRepository;
+
+    @Autowired
+    private AddSongRepository addSongRepository;
 
     @Autowired
     SongService songService;
@@ -77,15 +81,7 @@ public class PlaylistImpl implements PlaylistService{
         return target_playlist;
     }
 
-    @Override
-    public void addSong(Long songId, Playlist playlist) {
-        Song song = songService.getSongById(songId);
-        song.setPlaylist(playlistRepository.findById(playlist.getId()));
 
-        songRepository.save(song);
-
-
-    }
 
     @Override
     public List<Playlist> allPlaylist() {
@@ -138,10 +134,16 @@ public class PlaylistImpl implements PlaylistService{
         {
             newAddSong.setSong(selectedSong);
             newAddSong.setPlaylist(selectedPlaylist);
+            addSongRepository.save(newAddSong);
 
         }
 
 
+
         }
 
+    @Override
+    public Playlist removeSong(long playlist_id, long song_id) {
+        return null;
+    }
 }

@@ -97,10 +97,7 @@ public class SongServiceImpl implements SongService{
         if (target_song == null) {
             return null;
         }
-        if(target_song.getPlaylist() != song.getPlaylist())
-        {
-            target_song.setPlaylist(song.getPlaylist());
-        }
+
 
         songRepository.save(target_song);
         return target_song;
