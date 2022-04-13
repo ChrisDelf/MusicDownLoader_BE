@@ -1,5 +1,6 @@
 package com.example.musicdownloader.service;
 
+import com.example.musicdownloader.model.AddSong;
 import com.example.musicdownloader.model.Playlist;
 import com.example.musicdownloader.model.Song;
 
@@ -14,5 +15,6 @@ public interface PlaylistService {
 
     public Playlist removeSong( long playlist_id , long song_id);
     void addSong( long playlist_id , long song_id);
+    public AddSong selectAddSong(long playlist_id , long song_id);
 
 }

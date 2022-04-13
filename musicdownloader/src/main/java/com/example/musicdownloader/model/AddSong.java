@@ -35,6 +35,10 @@ public class AddSong implements Serializable {
         this.playlist = playlist;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public Song getSong() {
         return song;
     }
