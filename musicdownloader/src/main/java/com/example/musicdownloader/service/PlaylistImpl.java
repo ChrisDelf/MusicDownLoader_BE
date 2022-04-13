@@ -170,4 +170,26 @@ public class PlaylistImpl implements PlaylistService{
 
         return null;
     }
+
+    @Override
+    public Playlist removeSongFromPlaylist(long id) {
+
+
+
+
+        AddSong tempAddSong =  Optional.ofNullable(addSongRepository.findById(id))
+                .orElseThrow( () -> new ResourceNotFoundException("Add_Song id " + id + "not found!"));
+
+
+        if (addSongRepository.findById(id) != null )
+        {
+            long playlist_id = tempAddSong.getId();
+            addSongRepository.deleteById(id);
+
+            Playlist returnPlaylist = playlistRepository.findById(playlist_id);
+            return returnPlaylist;
+        }
+
+        return null;
+    }
 }

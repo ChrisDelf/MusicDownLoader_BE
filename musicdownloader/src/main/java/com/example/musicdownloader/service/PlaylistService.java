@@ -16,5 +16,6 @@ public interface PlaylistService {
     public Playlist removeSong( long playlist_id , long song_id);
     void addSong( long playlist_id , long song_id);
     public AddSong selectAddSong(long playlist_id , long song_id);
+    public Playlist removeSongFromPlaylist(long addSong_id);
 
 }
