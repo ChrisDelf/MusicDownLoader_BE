@@ -39,7 +39,7 @@ public class PlaylistController {
     public ResponseEntity<?> getPlaylistById(HttpServletRequest request, @PathVariable Long id)
     {
         Playlist tempPlaylist = playlistService.getByPlaylistId(id);
-        System.out.println(tempPlaylist.getSongs().get(0).getTitle());
+       System.out.println(tempPlaylist.getSongs().get(0).getSong().getId());
         return new ResponseEntity<>(tempPlaylist, HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class PlaylistController {
                                     @PathVariable Long songId,
                                     @RequestBody Playlist playlist)
     {
-        playlistService.addSong(songId, playlist);
+        playlistService.addSong(playlist.getId(), songId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

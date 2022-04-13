@@ -21,7 +21,7 @@ public class UserRoles implements Serializable
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id" )
     @JsonIgnoreProperties("user_roles")
     private Role role;
 

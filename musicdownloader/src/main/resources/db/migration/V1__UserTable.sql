@@ -1,4 +1,4 @@
---CREATE TABLE users(
+--CREATE TABLE add_song(
 --    id uuid NOT NULL PRIMARY KEY,
 --    name VARCHAR(100) NOT NULL,
 --    password VARCHAR(100) NOT NULL
