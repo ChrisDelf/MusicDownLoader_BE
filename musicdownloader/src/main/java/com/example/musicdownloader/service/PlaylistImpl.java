@@ -90,6 +90,7 @@ public class PlaylistImpl implements PlaylistService{
                 .iterator()
                 .forEachRemaining(playlists :: add);
 
+
         return playlists;
     }
 
@@ -141,9 +142,32 @@ public class PlaylistImpl implements PlaylistService{
 
 
         }
+    @Transactional
+    @Override
+    public AddSong selectAddSong(long playlist_id, long song_id) {
+        AddSong tempAddSong = addSongRepository.selectAddSong(playlist_id, song_id);
+
+        return tempAddSong;
+    }
 
     @Override
     public Playlist removeSong(long playlist_id, long song_id) {
+        AddSong tempAddSong = selectAddSong(playlist_id, song_id);
+
+        long id = tempAddSong.getId();
+
+        Optional.ofNullable(addSongRepository.findById(id))
+                .orElseThrow( () -> new ResourceNotFoundException("Add_Song id " + id + "not found!"));
+
+
+        if (addSongRepository.findById(id) != null )
+        {
+            addSongRepository.deleteById(id);
+
+            Playlist returnPlaylist = playlistRepository.findById(playlist_id);
+            return returnPlaylist;
+        }
+
         return null;
     }
 }
