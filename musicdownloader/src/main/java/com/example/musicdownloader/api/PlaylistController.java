@@ -67,13 +67,13 @@ public class PlaylistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/remove/{songId}",
+    @DeleteMapping(value = "/remove/{addSongId}",
             consumes = {"application/json"},
             produces = {"application/json"})
     public ResponseEntity<?> removeSong(HttpServletRequest request,
-                                        @PathVariable Long songId,
+                                        @PathVariable Long addSongId,
                                         @RequestBody Playlist playlist) {
-        Playlist tempPlaylist = playlistService.removeSong(playlist.getId(), songId);
+        Playlist tempPlaylist = playlistService.removeSongFromPlaylist(addSongId);
 
 
         return new ResponseEntity<Playlist>( tempPlaylist , HttpStatus.OK);
