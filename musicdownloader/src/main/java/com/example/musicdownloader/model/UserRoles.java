@@ -12,16 +12,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "user_roles")
 public class UserRoles implements Serializable
-    {
+{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_roles_FK_user_id")
     @JsonIgnoreProperties("user_roles")
     private User user;
 
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "role_id" )
+    @JoinColumn(name = "user_roles_FK_role_id" )
     @JsonIgnoreProperties("user_roles")
     private Role role;
 

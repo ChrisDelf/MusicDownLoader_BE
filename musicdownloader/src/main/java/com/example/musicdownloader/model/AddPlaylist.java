@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "add_song")
+@Table(name = "add_playlist")
 public class AddPlaylist implements Serializable {
     @Id
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY )
@@ -14,17 +14,21 @@ public class AddPlaylist implements Serializable {
 
 
     @ManyToOne
-    @JoinColumn(name = "add_playlist_playlist_id")
+    @JoinColumn(name = "add_playlist_FK_playlist_id")
     @JsonIgnoreProperties("addPlaylist")
     private Playlist playlist;
 
     
     @ManyToOne
-    @JoinColumn(name = "add_playlist_user_id")
+    @JoinColumn(name = "add_playlist_FK_user_id")
     @JsonIgnoreProperties("user")
     private User user;
 
     public AddPlaylist() {
+    }
+
+    public long getId() {
+        return id;
     }
 
     public Playlist getPlaylist() {

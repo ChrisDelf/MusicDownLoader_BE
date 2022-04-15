@@ -1,12 +1,11 @@
 package com.example.musicdownloader.service;
 
+import com.example.musicdownloader.Repository.AddPlaylistRepository;
 import com.example.musicdownloader.Repository.AddSongRepository;
 import com.example.musicdownloader.Repository.PlaylistRepository;
 import com.example.musicdownloader.Repository.SongRepository;
 import com.example.musicdownloader.exceptions.ResourceNotFoundException;
-import com.example.musicdownloader.model.AddSong;
-import com.example.musicdownloader.model.Playlist;
-import com.example.musicdownloader.model.Song;
+import com.example.musicdownloader.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +32,27 @@ public class PlaylistImpl implements PlaylistService{
     @Autowired
     SongService songService;
 
+    @Autowired
+    private AddPlaylistRepository addPlaylistRepository;
+
+    @Autowired
+    private UserService userService;
+
     @Override
-    public Playlist createPlaylist(Playlist playlist) {
+    public Playlist createPlaylist(Playlist playlist, Long userid) {
         Date date = new Date();
         playlist.setDate(date);
+        playlistRepository.save(playlist);
+        // if we have a user associated with the creation of this playlist then we add it to the join table
+        User tempUser = userService.getUserById(userid);
+        if (tempUser != null )
+        {
+            AddPlaylist newAddPlaylist = new AddPlaylist();
+            newAddPlaylist.setPlaylist(playlist);
+            newAddPlaylist.setUser(tempUser);
+            addPlaylistRepository.save(newAddPlaylist);
 
-    playlistRepository.save(playlist);
+        }
 
     return playlist;
     }

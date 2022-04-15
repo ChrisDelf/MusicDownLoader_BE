@@ -50,7 +50,8 @@ public class SongController {
         if (terminalOutput.getPlayListName() != null )
         {   Playlist newPlaylist = new Playlist();
             newPlaylist.setName(terminalOutput.getPlayListName());
-            playlistService.createPlaylist(newPlaylist);
+            newPlaylist.setIs_private(false);
+            playlistService.createPlaylist(newPlaylist, null);
 
             for (Song song : terminalOutput.getSongs()) {
 

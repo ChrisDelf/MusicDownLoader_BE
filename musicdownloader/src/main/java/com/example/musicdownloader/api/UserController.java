@@ -35,9 +35,11 @@ public class UserController {
             produces = {"application/json"})
     public ResponseEntity<?> CreateUser(HttpServletRequest request, @Validated
     @RequestBody User newuser) throws Exception{
+        User tempUser = new User();
 
+        tempUser = userService.addUser(newuser);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(tempUser, HttpStatus.OK);
     }
 
 
