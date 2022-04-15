@@ -29,7 +29,9 @@ public class UserServiceImpl implements UserService {
             throw new ResourceFoundException(user.getUsername() + "is already taken!");
         }
 
-        User newUser = new User(user.getUsername(), user.getPassword(), null);
+
+
+        User newUser = new User(user.getUsername(), user.getPassword());
         newUser.setPassword(user.getPassword());
 
         return userRepo.save(newUser);

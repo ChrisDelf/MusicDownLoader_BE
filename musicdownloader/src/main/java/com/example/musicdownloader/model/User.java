@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
 
@@ -30,10 +30,10 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<UserRoles> user_roles = new ArrayList<>();
+//    @OneToMany(mappedBy = "user",
+//            cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<UserRoles> user_roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",
     cascade = CascadeType.ALL)
@@ -45,15 +45,17 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password, List<UserRoles> userRoles)
+//    public User(String username, String password, List<UserRoles> userRoles)
+
+    public User(String username, String password)
     {
         setUsername(username);
         setPassword(password);
-        for (UserRoles ur : userRoles)
-        {
-            ur.setUser(this);
-        }
-        this.user_roles = userRoles;
+//        for (UserRoles ur : userRoles)
+//        {
+//            ur.setUser(this);
+//        }
+//        this.user_roles = userRoles;
     }
 
     public String getUsername() {
@@ -72,13 +74,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public List<UserRoles> getUser_roles() {
-        return user_roles;
-    }
-
-    public void setUser_roles(List<UserRoles> user_roles) {
-        this.user_roles = user_roles;
-    }
+//    public List<UserRoles> getUser_roles() {
+//        return user_roles;
+//    }
+//
+//    public void setUser_roles(List<UserRoles> user_roles) {
+//        this.user_roles = user_roles;
+//    }
 
     public long getId() {
         return id;

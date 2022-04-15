@@ -42,16 +42,17 @@ public class PlaylistController {
         return new ResponseEntity<>(tempPlaylist, HttpStatus.OK);
     }
 
-    @PostMapping(value= "/create",
+    @PostMapping(value= "/create/{user_id}",
             consumes = {"application/json"},
             produces = {"application/json"})
     public ResponseEntity<?> createAPlaylist(HttpServletRequest request,
-    @RequestBody
+                                             @PathVariable long user_id,
+                                             @RequestBody
             Playlist playlist)throws URISyntaxException, IOException
     {
 
 
-        playlistService.createPlaylist(playlist);
+        playlistService.createPlaylist(playlist, user_id);
 
         return new ResponseEntity<>( HttpStatus.OK);
     }
