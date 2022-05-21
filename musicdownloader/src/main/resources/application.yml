@@ -4,3 +4,9 @@ app:
     username: postgres
     password: derpo
     pool-size: 30
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000
